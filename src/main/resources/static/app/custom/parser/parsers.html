@@ -1,0 +1,237 @@
+<div class="page">
+
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<strong><span class="glyphicon glyphicon-th"></span> Parsers</strong>
+		</div>
+		<div class="panel-body padding-lg">
+			<div class="row">
+				<div class="col-lg-10 col-lg-offset-1">
+
+					<div ng-controller="ParserCtrl">
+						<div class="row">
+							<div class="col-sm-12">
+								<form>
+									<div class="form-group">
+										<label for="jsmode">JS Mode:</label> <input type="checkbox"
+											id="jsmode" ng-model="request.jsmode" ng-true-value="1"
+											ng-false-value="0"> <input type="text"
+											class="form-control" placeholder="Enter Product Url" id="url"
+											ng-model="request.url">
+
+									</div>
+								</form>
+							</div>
+							<div class="col-sm-12">
+								<h3>Product Selector</h3>
+								<form>
+									<div class="row">
+
+										<div class="form-group col-sm-6">
+											<label for="product_title">Title Selector:</label> <input
+												type="text" class="form-control"
+												placeholder="Enter Product Title Selector"
+												id="product_title" ng-model="request.title">
+										</div>
+										<div class="form-group col-sm-6">
+											<label for="product_title">Title Value:</label></br> <span
+												style="font-weight: bold">{{product.title}}</span>
+
+										</div>
+									</div>
+									<div class="row">
+										<div class="form-group col-sm-6">
+											<label for="product_categories">Category Selector:</label> <input
+												type="text" class="form-control"
+												placeholder="Enter Category Selector"
+												id="product_categories" ng-model="request.category">
+										</div>
+										<div class="form-group col-sm-6">
+											<label for="product_title">Category Value:</label></br> <span
+												style="font-weight: bold" ng-if="product.category">{{product.category
+												| join:','}}</span>
+
+										</div>
+									</div>
+									<div class="row">
+										<div class="form-group col-sm-6">
+											<label for="product_imagerelation">Relative Image:</label> <select
+												ng-model="request.imagerelation">
+												<option value="0">Relative</option>
+												<option value="1">Absolute</option>
+
+											</select>
+										</div>
+									</div>
+							
+									<div class="row">
+										<div class="form-group col-sm-6">
+											<label for="product_categories">Thumbnail Image
+												Selector:</label> <input type="text" class="form-control"
+												placeholder="Enter Thumbnail Selector"
+												id="product_image_small" ng-model="request.thumbnails[0]">
+											<input ng-model="request.thumbnails_imagepattern"
+												placeholder="Enter Thumbnail Url Pattern" />
+
+
+										</div>
+										<div class="form-group col-sm-6">
+											<div id="carousel" class='outerWrapper outerWrapper2'
+												style="width: 500px" ng-if="product.thumbnails">
+												<div class="item"
+													ng-repeat="slide in product.thumbnails track by $index">
+													<img ng-src="{{slide}}" />
+												</div>
+
+											</div>
+
+										</div>
+
+									</div>
+									<div class="row">
+										<div class="form-group col-sm-6">
+											<label for="product_categories">Main Image Pattern:<input
+												type="checkbox" ng-model="request.mainimage_mode"
+												ng-true-value="0" ng-false-value="1"></label> </br>
+
+
+											<div ng-if="request.mainimage_mode == 0">
+												<input type="text" class="form-control"
+													placeholder="Enter Pattern" id="product_main_images"
+													ng-model="request.imagepattern"></br>  <input
+													placeholder="Enter Desired Heigth Width Pattern"
+													ng-model="request.heightwidthpattern" />
+											</div>
+											<div ng-if="request.mainimage_mode == 1">
+												<input placeholder="Enter Main Image Selector"
+													ng-model="request.mainimages[0]" /> <input
+													ng-model="request.mainimage_imagepattern"
+													placeholder="Enter Mainimage Url Pattern" />
+
+											</div>
+
+										</div>
+										<div class="form-group col-sm-6">
+											<div id="carousel1" class='outerWrapper outerWrapper2'
+												ng-if="product.mainimages">
+												<div class="item outfit"
+													ng-repeat="slide in product.mainimages track by $index">
+													<img ng-src="{{slide}}" />
+												</div>
+
+											</div>
+
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="form-group col-sm-6">
+											<label for="product_categories">Current Price
+												Selector:</label> <input type="text" class="form-control"
+												placeholder="Enter Category Selector"
+												id="product_currentprice" ng-model="request.currentprice">
+										</div>
+										<div class="form-group col-sm-6">
+											<label for="product_title">Current Price Value:</label></br> <span
+												style="font-weight: bold" ng-if="product.currentprice">{{product.currentprice}}</span>
+
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="form-group col-sm-6">
+											<label for="product_categories">Old Price Selector:</label> <input
+												type="text" class="form-control"
+												placeholder="Enter Category Selector" id="product_oldprice"
+												ng-model="request.oldprice">
+										</div>
+										<div class="form-group col-sm-6">
+											<label for="product_title">Old Price Value:</label></br> <span
+												style="font-weight: bold" ng-if="product.oldprice">{{product.oldprice}}</span>
+
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="form-group col-sm-6">
+											<label for="product_categories">Description Selector:</label>
+											<input type="text" class="form-control"
+												placeholder="Enter Description Selector"
+												id="product_description" ng-model="request.description">
+										</div>
+										<div class="form-group col-sm-6">
+											<label for="product_description">Description Value:</label></br> <span
+												style="font-weight: bold" ng-if="product.description">{{product.description}}</span>
+
+										</div>
+									</div>
+
+
+									<div class="row">
+										<div class="form-group col-sm-6">
+											<label for="product_attributes">Attributes Key
+												Selector:</label> <input type="text" class="form-control"
+												placeholder="Enter Attribute Selector"
+												id="product_attributekeys"
+												ng-model="request.attributekeys[0]">
+										</div>
+										<div class="form-group col-sm-6">
+											<label for="product_description">Attributes Key
+												Value:</label></br>
+											<ul ng-if="product.attributekeys" style="width: 100%">
+												<li
+													ng-repeat="attr in product.attributekeys track by $index">{{attr}}</li>
+											</ul>
+
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="form-group col-sm-6">
+											<label for="product_attributes">Attributes Selector:</label>
+											<input type="text" class="form-control"
+												placeholder="Enter Attribute Selector"
+												id="product_attributes" ng-model="request.attributes[0]">
+										</div>
+										<div class="form-group col-sm-6">
+											<label for="product_description">Attributes Value:</label></br>
+											<ul ng-if="product.attributes" style="width: 100%">
+												<li ng-repeat="attr in product.attributes track by $index">{{attr}}</li>
+											</ul>
+
+										</div>
+									</div>
+
+									<div class="btn-group dropup">
+										<button type="button" class="btn btn-primary"
+											ng-click="parse()">Submit</button>
+
+									</div>
+									<div class="btn-group dropup">
+
+										<button type="button" class="btn btn-primary"
+											ng-click="download(0)" ng-if="product">Export Plugin</button>
+
+										<button type="button" class="btn btn-primary"
+											ng-click="download(1)" ng-if="product">Export Data</button>
+										<input type="file" id="file" name="file"
+											class="btn btn-primary" />
+										<button type="button" ng-click="add()" class="btn btn-primary">Load
+											Plugin</button>
+
+
+
+									</div>
+								</form>
+							</div>
+
+
+
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

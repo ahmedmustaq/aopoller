@@ -1,0 +1,25 @@
+version: '3.1'
+
+services:
+    chrome:
+        image: selenium/standalone-chrome:latest
+        hostname: chrome
+        ports:
+         - "4444:4444"
+        network_mode: bridge
+        privileged: true
+        shm_size: 2g
+        
+    availoffer-poller:
+        build: .
+        image: raziqts/build:av-poller        
+        network_mode: bridge
+        ports:
+            - 9044:9044
+        command: --spring.profiles.active=dev
+        environment: 
+          - NUTCH_URL=http://192.168.0.152:9045
+          - SOLR_URL=http://192.168.0.152:8983/solr
+          - PLUGIN_PATH=/custom-extractors.xml
+          - PLUGIN_XSD_PATH=/extractors.xsd
+          - SELENIUM_PATH=http://192.168.0.152:4444/wd/hub                       

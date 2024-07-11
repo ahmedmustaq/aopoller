@@ -1,0 +1,69 @@
+        
+<div class="nav-wrapper">
+    <ul id="nav"
+        class="nav"
+        data-slim-scroll
+        data-accordion-nav
+        data-highlight-active>
+        <li><a href="#!/dashboard"><i class="fa fa-dashboard"><span class="icon-bg bg-danger"></span></i><span data-translate="DASHBOARD"></span> </a></li>
+        <li>
+            <a href="#!/ui"><i class="fa fa-magic"><span class="icon-bg bg-orange"></span></i><span data-translate="Website Parsers"></span></a>
+            <ul>
+                <li><a href="#!/custom/parser/parsers"><i class="fa fa-circle"></i><span data-translate="Create Parsers"></span></a></li>
+                <li><a href="#!/custom/parser/generate"><i class="fa fa-circle"></i><span data-translate="Generate Plugin"></span></a></li>
+            </ul>
+        </li>
+        <div sec:authentication="name"></div>
+        <li>
+            <a href="#!/page"><i class="fa fa-table"><span class="icon-bg bg-warning"></span></i><span data-translate="Data Generator"></span></a>
+            <ul>
+                <li><a href="#!/custom/generator/jobs"><i class="fa fa-circle"></i><span data-translate="RunJob"></span></a></li>
+                <li><a href="#!/custom/generator/gendata"><i class="fa fa-circle "></i><span data-translate="Generate Data"></span></a></li>
+			</ul>
+        </li>
+        <!--
+        <li>
+            <a href="#!/table"><i class="fa fa-table"><span class="icon-bg bg-success"></span></i><span data-translate="TABLES"></span></a>
+            <ul>
+                <li><a href="#!/table/static"><i class="fa fa-circle"></i><span data-translate="STATIC_TABLES"></span></a></li>
+                <li><a href="#!/table/responsive"><i class="fa fa-circle"></i><span data-translate="RESPONSIVE_TABLES"></span> <span class="badge badge-info">2</span></a></li>
+                <li><a href="#!/table/dynamic"><i class="fa fa-circle"></i><span data-translate="DYNAMIC_TABLES"></span></a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#!/form"><i class="fa fa-pencil"><span class="icon-bg bg-primary-light"></span></i><span data-translate="FORMS"></span></a>
+            <ul>
+                <li><a href="#!/form/layouts"><i class="fa fa-circle"></i><span data-translate="FORM_LAYOUTS"></span></a></li>
+                <li><a href="#!/form/elements"><i class="fa fa-circle"></i><span data-translate="FORM_ELEMENTS"></span> <span class="badge badge-info">13</span></a></li>
+                <li><a href="#!/form/validation"><i class="fa fa-circle"></i><span data-translate="FORM_VALIDATION"></span></a></li>
+                <li><a href="#!/form/wizard"><i class="fa fa-circle"></i><span data-translate="FORM_WIZARD"></span></a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#!/chart"><i class="fa fa-bar-chart-o"><span class="icon-bg bg-primary"></span></i><span data-translate="CHARTS"></span></a>
+            <ul>
+                <li><a href="#!/chart/echarts-line"><i class="fa fa-circle"></i><span data-translate="LINE"></span></a></li>
+                <li><a href="#!/chart/echarts-bar"><i class="fa fa-circle"></i><span data-translate="BAR"></span></a></li>
+                <li><a href="#!/chart/echarts-pie"><i class="fa fa-circle"></i><span data-translate="PIE"></span></a></li>
+                <li><a href="#!/chart/echarts-scatter"><i class="fa fa-circle"></i><span data-translate="SCATTER"></span></a></li>
+                <li><a href="#!/chart/echarts-more"><i class="fa fa-circle"></i><span data-translate="MORE"></span></a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#!/app"><i class="fa fa-tasks"><span class="icon-bg bg-violet"></span></i><span data-translate="APPLICATION"></span></a>
+            <ul>
+                <li><a href="#!/app/tasks"><i class="fa fa-circle"></i><span data-translate="TASKS"></span></a></li>
+                <li><a href="#!/app/calendar"><i class="fa fa-circle"></i><span data-translate="CALENDAR"></span></a></li>
+                <li>
+                    <a href="#!/app/mail"><i class="fa fa-circle"></i><span data-translate="MAIL"></span></a>
+                    <ul>
+                        <li><a href="#!/app/mail/inbox"><i class="fa fa-caret-right"></i><span data-translate="INBOX"></span></a></li>
+                        <li><a href="#!/app/mail/compose"><i class="fa fa-caret-right"></i><span data-translate="COMPOSE"></span></a></li>
+                        <li><a href="#!/app/mail/single"><i class="fa fa-caret-right"></i><span data-translate="SINGLE_MAIL"></span></a></li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        -->
+    </ul>
+</div>

@@ -1,0 +1,166 @@
+<div class="page">
+
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<strong><span class="glyphicon glyphicon-th"></span> Jobs</strong>
+		</div>
+		<div class="panel-body padding-lg">
+			<div class="row">
+				<div class="col-lg-10 col-lg-offset-1" ng-controller="JobCtrl">
+					<form class="form-horizontal" name="form_job" class="form-validation novalidate data-ng-submit="submitForm()">
+						<div class="form-group">
+							<label for="" class="col-sm-2"></label>
+							<div class="col-sm-10">
+								<div class="row">
+									<div class="col-lg-12">
+										
+											
+												<button class="btn btn-default btn-block" type="button"
+													ng-click="list()">List Jobs!</button>
+												
+
+										
+									</div>
+
+								</div>
+
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="" class="col-sm-2">Category Url</label>
+							<div class="col-sm-10">
+								<textarea name="" ng-model="fetch.urls" id="" class="form-control" rows="4" ></textarea><button class="btn btn-default" type="button" data-ng-disabled="!(fetch.urls && fetch.pattern)"
+													ng-click="loadUrls()">Load Product Urls <small ng-if="fetch.url_data">{{fetch.url_data.length}} Urls</small></button>JS Mode:&nbsp;<input type="checkbox"
+											id="jsmode" ng-model="fetch.jsmode" ng-true-value="1"
+											ng-false-value="0">Wait Sec: &nbsp;<input type="text"
+											id="waitsec" ng-model="fetch.waitsec" style="width:100px">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="" class="col-sm-2">Visibility Selector</label>
+							<div class="col-sm-10">
+								<input type="text" id="visibilitySelector"  name="visibilitySelector" class="form-control" ng-model="fetch.visibilitySelector" placeholder="Enter the page loading element visibility through css selector"/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="" class="col-sm-2">Product Pattern</label>
+							<div class="col-sm-10">
+								<input type="text" id=""  name="" class="form-control" ng-model="fetch.pattern">Remove Query String<input type="checkbox"
+											id="jsmode" name="" ng-model="fetch.removequery" ng-true-value="1"
+											ng-false-value="0">Remove Path<input type="text" style="width:20px"
+											id="jsmode" name="" ng-model="fetch.removepath" ng-true-value="1"
+											ng-false-value="0"> 
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="" class="col-sm-2">Product Url</label>
+							<div class="col-sm-10">
+								<textarea name="" ng-model="request.seeds" id="" class="form-control" rows="4" required></textarea><button class="btn btn-default" type="button"
+													ng-click="setSeeds()" data-ng-disabled="!canSubmit()">Set Seeds <small ng-if="request.seed_data">{{request.seed_data.seedUrls.length}} Urls</small></button><small class="btn btn-warning" ng-if="seedfile" >Seed Configured</small>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="" class="col-sm-2">Job Name</label>
+							<div class="col-sm-10">
+								<input type="text" id=""  name="" class="form-control" required
+									ng-model="request.crawlId">
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="" class="col-sm-2">No of urls</label>
+							<div class="col-sm-10">
+								<input type="number" id=""  name="" class="form-control" required value="1"
+									ng-model="request.noofurl">
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="" class="col-sm-2">Job Status</label>
+							<div class="col-sm-10">
+								<select id=""  name=""  ng-model="request.state"  class="form-control">
+									<option value="" selected>All</option>
+									<option value="FINISHED">FINISHED</option>
+									<option value="IDLE">IDLE</option>
+									<option value="FAILED">FAILED</option>
+									<option value="RUNNING">RUNNING</option>
+								</select>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="" class="col-sm-2">Job Type</label>
+							<div class="col-sm-10">
+								<select id=""  name="" ng-model="request.type"  class="form-control" >
+									<option ng-repeat="task in tasks" value="{{task.value}}">{{task.name}}</option>
+								</select>
+									
+								
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="" class="col-sm-2">Iteration</label>
+							<div class="col-sm-10">
+								
+									<input type="number" id=""  name="" class="form-control" required value="2"
+									ng-model="request.iteration">
+								
+							</div>
+						</div>
+						 <button type="button" ng-click="createJob()" ng-if="request.type.length > 0 && request.crawlId != 'All'"
+                        class="btn btn-primary btn-w-md"
+                        data-ng-disabled="!canSubmit()"
+                        >{{request.type}}</button>
+                         
+                         
+                        
+                         <button type="button"
+                        class="btn btn-primary btn-w-md" ng-click="clear()"
+                        
+                        >Clear Jobs</button>
+                        
+                        <button type="button"
+                        class="btn btn-primary btn-w-md" ng-click="command('admin/stop?force=true')"
+                        
+                        >Force Clear</button>
+                      
+                       <button type="button"
+                        class="btn btn-primary btn-w-md" ng-click="auto()"
+                        data-ng-disabled="!canSubmit()"
+                        >Process</button>
+                        
+                        
+                         <button type="button"
+                        class="btn btn-primary btn-w-md" ng-click="cancel()"
+                        data-ng-disabled="!interval"
+                        >Stop Processing</button>
+                      
+						<div class="divider"></div>
+						<table class="table table-bordered table-striped" ng-if="jobs.length > 0">
+							<thead>
+								<tr>
+									<th>Job Id</th>
+									<th>Type</th>
+									<th>State<i class="fa fa-refresh" ng-click="list()"></i></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="job in jobs | filter: myFilter">
+									<td>{{job.crawlId}}</td>
+									<td>{{job.type}}</td>
+									<td>{{job.state}}</td>
+									
+								</tr>
+							</tbody>
+						</table>
+					</form>
+				</div>
+			</div>
+
+			<div class="row"></div>
+		</div>
+	</div>
+</div>

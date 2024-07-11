@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<config xmlns="http://bayan.ir">
+	<fields>
+		<field name="parse_title" multi="false" />
+		<field name="oldprice" multi="false" />
+		<field name="currentprice" multi="false" />
+		<field name="thumbnailimages" multi="true" />
+		<field name="mainimages" multi="true" />
+	</fields>
+	<documents>
+		<document url="^https://salamathbooks.com" engine="css">
+			<extract-to field="parse_title">
+				<text>
+					<expr value="#title-page" />
+				</text>
+			</extract-to>
+			<extract-to field="oldprice">
+				<text>
+					<expr value="#price-old" />
+				</text>
+			</extract-to>
+			<extract-to field="currentprice">
+				<text>
+					<expr value="#price-special" />
+				</text>
+			</extract-to>
+			<extract-to field="thumbnailimages">
+				<resolve>
+					<attribute name="src">
+						<expr
+							value="#quickview_product &gt; div.col-sm-7.popup-gallery &gt; div &gt; div.col-sm-2 &gt; div &gt; ul img" />
+					</attribute>
+				</resolve>
+			</extract-to>
+			<extract-to field="mainimages">
+				<resolve>
+					<replace pattern="#product-image" substitution="500x500">
+						<attribute name="[0-9]{2,3}[x][0-9]{2,3}">
+							<expr
+								value="#quickview_product &gt; div.col-sm-7.popup-gallery &gt; div &gt; div.col-sm-2 &gt; div &gt; ul img" />
+						</attribute>
+					</replace>
+				</resolve>
+			</extract-to>
+		</document>
+	</documents>
+</config>

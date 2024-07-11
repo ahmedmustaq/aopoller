@@ -1,0 +1,111 @@
+<style>
+.grid {
+  width: 500px;
+  height: 400px;
+}
+</style>
+<div class="page">
+
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<strong><span class="glyphicon glyphicon-th"></span>
+				Generate Data</strong>
+		</div>
+		<div class="panel-body padding-lg" ng-controller="GenDataCtrl">
+
+			<div class="row">
+
+				<form class="form-inline" role="form"  name="form_gen" class="form-validation novalidate">
+					<div class="form-group">
+						<div class="col-md-12">
+							<label>From Date:</label>
+							<p class="input-group">
+								<input type="text" class="form-control"
+									uib-datepicker-popup="{{format}}" ng-model="fromdate"
+									is-open="popup1.opened" datepicker-options="dateOptions"
+									ng-required="true" close-text="Close"
+									alt-input-formats="altInputFormats" /> <span
+									class="input-group-btn">
+									<button type="button" class="btn btn-default"
+										ng-click="open1()">
+										<i class="glyphicon glyphicon-calendar"></i>
+									</button>
+								</span>
+							</p>
+						</div>
+
+
+					</div>
+					<div class="form-group">
+						<div class="col-md-12">
+							<label>To Date:</label>
+							<p class="input-group">
+								<input type="text" class="form-control"
+									uib-datepicker-popup="{{format}}" ng-model="todate"
+									is-open="popup2.opened" datepicker-options="dateOptions"
+									ng-required="true" close-text="Close"
+									alt-input-formats="altInputFormats" /> <span
+									class="input-group-btn">
+									<button type="button" class="btn btn-default"
+										ng-click="open2()">
+										<i class="glyphicon glyphicon-calendar"></i>
+									</button>
+								</span>
+							</p>
+						</div>
+
+
+					</div>
+
+					<div class="form-group">
+						<div class="col-md-12">
+							<label>Host:</label> <select ng-model="host" ng-required="true">
+								<option ng-repeat="x in hosts" value="{{x.host}}">{{x.host}}-{{x.numfound}} Rec(s)</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-md-12">
+							<label>Format:</label> <select ng-required="true" ng-model="formatExport"><option value="wordpress">Wordpress</option><option value="storehippo">Storehippo</option><option value="availoffers">AvailOffers</option></select>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<div class="col-md-12">
+							<label>Image Pattern:</label> <input type="text" id=""  name="" class="form-control"  style="width:100px"
+									ng-model="pattern" placeholder="Pattern">
+						</div>
+					</div>
+					
+					
+					<div class="form-group">
+						<div class="col-md-12">
+							<label>Category Path:</label> <input type="text" id=""  name="" class="form-control"  style="width:200px"
+									ng-model="category" placeholder="override categorypath">
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-md-12">
+							<label>Starting Record:</label> <input type="number" id=""  name="" class="form-control"  style="width:50px"
+									ng-model="start" placeholder="1" ng-required="true">
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-md-12">
+							<label>No of records:</label> <input type="number" id=""  name="" class="form-control"  style="width:100px"
+									ng-model="noofrecs" placeholder="100" ng-required="true">
+						</div>
+					</div>
+					<div class="divider"></div>
+					<div class="col-md-12">
+						<button type="button" class="btn btn-primary btn-w-md"
+							ng-click="search()" data-ng-disabled="!canSubmit()">Download</button>
+					</div>
+				</form>
+
+
+			</div>
+		</div>
+		
+	</div>
+</div>

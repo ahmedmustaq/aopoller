@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Parser Builder</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="carousel.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="waltzerjs.min.js"></script>
+<style>
+/* Make the image fully responsive */
+.carousel-inner>.item>img {
+	min-height: 300px;
+	max-height: 300px;
+	width: 100%;
+}
+</style>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.js"></script>
+
+<script>
+	var app = angular.module("myApp", []);
+	app
+			.controller(
+					'formCtrl',
+					function($scope, $http) {
+						$scope.request = {};
+						$scope.request.jsmode = 0;
+						$scope.request.url = "https://www.flipkart.com/saara-dyed-solid-embellished-banarasi-cotton-silk-saree/p/itm2c7c60cf01ba3";
+						$scope.request.title = 'span.B_NuCI';
+						$scope.request.category = 'div._3GIHBu';
+						$scope.request.oldprice = '._3I9_wc._2p6lqe';
+						$scope.request.currentprice = '._30jeq3._16Jk6d';
+						$scope.request.imagepattern = '[0-9]{2,3}[/][0-9]{2,3}';
+						$scope.request.width = '300';
+						$scope.request.height = '600';
+						$scope.request.heightwidthpattern = '/';
+						$scope.request.mainimages = [ '._312yBx.SFzpgZ' ];
+						$scope.request.mainimage_mode = 0;
+						$scope.request.thumnails_mode = 1;
+						$scope.request.attributes = [ '.X3BRps._13swYk > div' ];
+						$scope.request.attributekeys = [ '.X3BRps._13swYk > .row > div:nth-child(1)' ];
+						$scope.request.description = '._1AN87F';
+						$scope.active = 0;
+
+						$scope.request.thumbnails = [ '.q6DClP._2_B7hD' ];
+
+						$scope.download = function(val) {
+							if (val == 0)
+								var response = $scope.request;
+							if (val == 1)
+								var response = $scope.product;
+							// if this response is coming through http call than make condition according to http response.statusCode
+							//check response is undefined, null or empty
+							if (typeof response == 'undefined'
+									|| response == null || response == "")
+								return;
+
+							var link = document.createElement("a");
+							if (val == 0)
+								link.download = "plugin.json";
+							if (val == 1)
+								link.download = "data.json";
+							var data = "text/json;charset=utf-8,"
+									+ encodeURIComponent(JSON
+											.stringify(response));
+							link.href = "data:" + data;
+							link.click();
+						};
+
+						$scope.add = function() {
+							var f = document.getElementById('file').files[0], r = new FileReader();
+
+							r.onloadend = function(e) {
+								var data = e.target.result;
+								$scope.request = JSON.parse(data);
+								//send your binary data via $http or $resource or do anything else with it
+							}
+
+							r.readAsBinaryString(f);
+						}
+
+						$scope.load = function() {
+							var response = $scope.request;
+							// if this response is coming through http call than make condition according to http response.statusCode
+							//check response is undefined, null or empty
+							if (typeof response == 'undefined'
+									|| response == null || response == "")
+								return;
+
+							var link = document.createElement("a");
+							link.download = "data.json";
+							var data = "text/json;charset=utf-8,"
+									+ encodeURIComponent(JSON
+											.stringify(response));
+							link.href = "data:" + data;
+							link.click();
+						};
+
+						$scope.parse = function() {
+
+							$http
+									.post("/parse", $scope.request, null)
+									.then(
+											function(response) {
+
+												$scope.product = response.data;
+												$scope.slides = [];
+												slides = [];
+												if ($scope.product.thumbnails != null
+														&& $scope.product.thumbnails.length > 0) {
+
+													setTimeout(
+															function() {
+																$('#carousel')
+																		.waltzer(
+																				{
+																					auto : false,
+																					autoPause : 5000,
+																					scroll : 3,
+																					offset : 1
+																				});
+															}, 100)
+												}
+
+												if ($scope.product.mainimages != null
+														&& $scope.product.mainimages.length > 0) {
+
+													setTimeout(
+															function() {
+																$('#carousel1')
+																		.waltzer(
+																				{
+																					auto : false,
+																					autoPause : 5000,
+																					scroll : 3,
+																					offset : 1
+																				});
+															}, 1000)
+
+												}
+
+											});
+
+						}
+
+					});
+
+	app.filter('join', function() {
+		return function join(array, separator, prop) {
+			if (!Array.isArray(array)) {
+				return array; // if not array return original - can also throw error
+			}
+
+			return (!angular.isUndefined(prop) ? array.map(function(item) {
+				return item[prop];
+			}) : array).join(separator);
+		};
+	});
+</script>
+
+</head>
+<body ng-app="myApp">
+
+	<div class="jumbotron text-center">
+		<h1>Parser Builder</h1>
+		<p>Build the parser from the website</p>
+	</div>
+
+	<div class="container" ng-controller="formCtrl">
+		<div class="row">
+			<div class="col-sm-12">
+				<form>
+					<div class="form-group">
+						<label for="jsmode">JS Mode:</label> <input type="checkbox"
+							id="jsmode" ng-model="request.jsmode" ng-true-value="1"
+							ng-false-value="0"> <input type="text"
+							class="form-control" placeholder="Enter Product Url" id="url"
+							ng-model="request.url">
+
+					</div>
+				</form>
+			</div>
+			<div class="col-sm-12">
+				<h3>Product Selector</h3>
+				<form>
+					<div class="row">
+
+						<div class="form-group col-sm-6">
+							<label for="product_title">Title Selector:</label> <input
+								type="text" class="form-control"
+								placeholder="Enter Product Title Selector" id="product_title"
+								ng-model="request.title">
+						</div>
+						<div class="form-group col-sm-6">
+							<label for="product_title">Title Value:</label></br> <span
+								style="font-weight: bold">{{product.title}}</span>
+
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-sm-6">
+							<label for="product_categories">Category Selector:</label> <input
+								type="text" class="form-control"
+								placeholder="Enter Category Selector" id="product_categories"
+								ng-model="request.category">
+						</div>
+						<div class="form-group col-sm-6">
+							<label for="product_title">Category Value:</label></br> <span
+								style="font-weight: bold" ng-if="product.category">{{product.category
+								| join:','}}</span>
+
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-sm-6">
+							<label for="product_imagerelation">Relative Image:</label>
+							<select ng-model="request.imagerelation">
+								<option value="0">Relative</option>
+								<option value="1">Absolute</option>
+
+							</select>
+						</div>
+						</div>
+						<div class="form-group col-sm-6">
+							
+					</div>
+					<div class="row">
+						<div class="form-group col-sm-6">
+							<label for="product_categories">Thumbnail Image Selector:</label>
+							<input type="text" class="form-control"
+								placeholder="Enter Thumbnail Selector" id="product_image_small"
+								ng-model="request.thumbnails[0]"> <input
+								ng-model="request.thumbnails_imagepattern"
+								placeholder="Enter Thumbnail Url Pattern" />
+
+
+						</div>
+						<div class="form-group col-sm-6">
+							<div id="carousel" class='outerWrapper outerWrapper2'
+								style="width: 500px" ng-if="product.thumbnails">
+								<div class="item"
+									ng-repeat="slide in product.thumbnails track by $index">
+									<img ng-src="{{slide}}" />
+								</div>
+
+							</div>
+
+						</div>
+
+					</div>
+					<div class="row">
+						<div class="form-group col-sm-6">
+							<label for="product_categories">Main Image Pattern:<input
+								type="checkbox" ng-model="request.mainimage_mode"
+								ng-true-value="0" ng-false-value="1"></label> </br>
+
+
+							<div ng-if="request.mainimage_mode == 0">
+								<input type="text" class="form-control"
+									placeholder="Enter Pattern" id="product_main_images"
+									ng-model="request.imagepattern"></br> <input
+									placeholder="Enter Width" ng-model="request.width" /><input
+									placeholder="Enter Height" ng-model="request.height" /> <input
+									placeholder="Enter Pattern Delimeter Value"
+									ng-model="request.heightwidthpattern" />
+							</div>
+							<div ng-if="request.mainimage_mode == 1">
+								<input placeholder="Enter Main Image Selector"
+									ng-model="request.mainimages[0]" /> <input
+									ng-model="request.mainimage_imagepattern"
+									placeholder="Enter Mainimage Url Pattern" />
+
+							</div>
+
+						</div>
+						<div class="form-group col-sm-6">
+							<div id="carousel1" class='outerWrapper outerWrapper2'
+								ng-if="product.mainimages">
+								<div class="item outfit"
+									ng-repeat="slide in product.mainimages track by $index">
+									<img ng-src="{{slide}}" />
+								</div>
+
+							</div>
+
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="form-group col-sm-6">
+							<label for="product_categories">Current Price Selector:</label> <input
+								type="text" class="form-control"
+								placeholder="Enter Category Selector" id="product_currentprice"
+								ng-model="request.currentprice">
+						</div>
+						<div class="form-group col-sm-6">
+							<label for="product_title">Current Price Value:</label></br> <span
+								style="font-weight: bold" ng-if="product.currentprice">{{product.currentprice}}</span>
+
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="form-group col-sm-6">
+							<label for="product_categories">Old Price Selector:</label> <input
+								type="text" class="form-control"
+								placeholder="Enter Category Selector" id="product_oldprice"
+								ng-model="request.oldprice">
+						</div>
+						<div class="form-group col-sm-6">
+							<label for="product_title">Old Price Value:</label></br> <span
+								style="font-weight: bold" ng-if="product.oldprice">{{product.oldprice}}</span>
+
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="form-group col-sm-6">
+							<label for="product_categories">Description Selector:</label> <input
+								type="text" class="form-control"
+								placeholder="Enter Description Selector"
+								id="product_description" ng-model="request.description">
+						</div>
+						<div class="form-group col-sm-6">
+							<label for="product_description">Description Value:</label></br> <span
+								style="font-weight: bold" ng-if="product.description">{{product.description}}</span>
+
+						</div>
+					</div>
+
+
+					<div class="row">
+						<div class="form-group col-sm-6">
+							<label for="product_attributes">Attributes Key Selector:</label>
+							<input type="text" class="form-control"
+								placeholder="Enter Attribute Selector"
+								id="product_attributekeys" ng-model="request.attributekeys[0]">
+						</div>
+						<div class="form-group col-sm-6">
+							<label for="product_description">Attributes Key Value:</label></br>
+							<ul ng-if="product.attributekeys" style="width: 100%">
+								<li ng-repeat="attr in product.attributekeys track by $index">{{attr}}</li>
+							</ul>
+
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="form-group col-sm-6">
+							<label for="product_attributes">Attributes Selector:</label> <input
+								type="text" class="form-control"
+								placeholder="Enter Attribute Selector" id="product_attributes"
+								ng-model="request.attributes[0]">
+						</div>
+						<div class="form-group col-sm-6">
+							<label for="product_description">Attributes Value:</label></br>
+							<ul ng-if="product.attributes" style="width: 100%">
+								<li ng-repeat="attr in product.attributes track by $index">{{attr}}</li>
+							</ul>
+
+						</div>
+					</div>
+
+
+					<button type="button" class="btn btn-primary" ng-click="parse()">Submit</button>
+
+					<button type="button" class="btn btn-primary"
+						ng-click="download(0)" ng-if="product">Export Plugin</button>
+
+					<button type="button" class="btn btn-primary"
+						ng-click="download(1)" ng-if="product">Export Data</button>
+					<input type="file" id="file" name="file" class="btn btn-primary" />
+					<button type="button" ng-click="add()" class="btn btn-primary">Load
+						Plugin</button>
+
+				</form>
+			</div>
+
+
+
+		</div>
+	</div>
+
+</body>
+<script>
+	//	$(document).ready(function() {
+	//		$("#myCarousel").carousel();
+	//	});
+</script>
+</html>
