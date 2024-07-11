@@ -28,7 +28,7 @@ AOPoller is a Java-based application designed for [briefly describe the purpose 
 - Java
 - Spring Boot
 - Docker
-- [Other technologies and frameworks used]
+- Apache Nutch
 
 ## Getting Started
 
@@ -82,11 +82,12 @@ The configuration files are located in the `src/main/resources` directory. Key c
 
 ### Basic Usage
 
-[Provide instructions on how to use the application, including any important endpoints or commands.]
+The poller is meant to scrap on ecommerce website for some valuable information without bothering their availability. It helps in promotion of the ecommerce websit
+and their products if they don't have product apis. In other words you can convert any website into apis using scraping.
 
 ### Custom Extractors
 
-You can define custom extractors in the `custom-extractors.xml` file. [Provide more details on how to configure and use custom extractors.]
+You can define custom extractors in the `custom-extractors.xml` file. Here you can configure the xpath to retreive the html elements to scrap
 
 ## Contributing
 
